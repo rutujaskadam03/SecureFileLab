@@ -1,9 +1,8 @@
 import streamlit as st
 st.markdown("""
-<div style="text-align: center; padding: 20px 10px;">
+<div style="text-align: center; padding: 20px;">
 
     <h1>SecureFileLab</h1>
-
     <p>Secure File Encryption, Decryption &amp; Hashing</p>
 
     <hr>
@@ -12,7 +11,6 @@ st.markdown("""
     <h2>Rutuja Sudesh Kadam</h2>
 
     <p>Department of Forensic Science</p>
-
     <h4>Yashavantrao Chavan Institute of Science, Satara</h4>
     <p>Maharashtra, India</p>
 
