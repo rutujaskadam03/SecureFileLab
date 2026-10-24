@@ -1,4 +1,14 @@
 import streamlit as st
+import hashlib
+import io
+from cryptography.fernet import Fernet, InvalidToken
+
+st.set_page_config(
+    page_title="SecureFile Lab",
+    page_icon="🔐",
+    layout="centered"
+)
+
 st.markdown("""
 <div style="text-align: center; padding: 20px;">
 
@@ -8,7 +18,7 @@ st.markdown("""
     <hr>
 
     <h3>Developed by</h3>
-    <h2>Rutuja Kadam</h2>
+    <h2>Rutuja Sudesh Kadam</h2>
 
     <p>Department of Forensic Science</p>
     <h4>Yashavantrao Chavan Institute of Science, Satara</h4>
@@ -26,15 +36,6 @@ st.markdown("""
 
 </div>
 """, unsafe_allow_html=True)
-import hashlib
-import io
-from cryptography.fernet import Fernet, InvalidToken
-
-st.set_page_config(
-    page_title="SecureFile Lab",
-    page_icon="🔐",
-    layout="centered"
-)
 
 st.title("🔐 SecureFile Lab")
 st.subheader("Data Integrity & Confidentiality Research Prototype")
