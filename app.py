@@ -8,7 +8,7 @@ st.markdown("""
     <hr>
 
     <h3>Developed by</h3>
-    <h2>Rutuja Sudesh Kadam</h2>
+    <h2>Rutuja Kadam</h2>
 
     <p>Department of Forensic Science</p>
     <h4>Yashavantrao Chavan Institute of Science, Satara</h4>
