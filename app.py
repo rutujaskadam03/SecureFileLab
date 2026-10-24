@@ -1,4 +1,33 @@
 import streamlit as st
+st.markdown("""
+<div style="text-align: center; padding: 20px 10px;">
+
+    <h1>SecureFileLab</h1>
+
+    <p>Secure File Encryption, Decryption &amp; Hashing</p>
+
+    <hr>
+
+    <h3>Developed by</h3>
+    <h2>Rutuja Sudesh Kadam</h2>
+
+    <p>Department of Forensic Science</p>
+
+    <h4>Yashavantrao Chavan Institute of Science, Satara</h4>
+    <p>Maharashtra, India</p>
+
+    <hr>
+
+    <h3>Under the Guidance of</h3>
+    <p>Mr. Smitesh Nalage</p>
+    <p>Mr. Aadesh Vatane</p>
+
+    <hr>
+
+    <p><b>Research Project:</b> MITM Attack Prevention</p>
+
+</div>
+""", unsafe_allow_html=True)
 import hashlib
 import io
 from cryptography.fernet import Fernet, InvalidToken
