@@ -1,51 +1,44 @@
 import streamlit as st
 import hashlib
-import io
+import base64
+import os
 from cryptography.fernet import Fernet, InvalidToken
 
 st.set_page_config(
-    page_title="SecureFile Lab",
+    page_title="SecureFileLab",
     page_icon="🔐",
     layout="centered"
 )
 
+# Website header and author details
 st.markdown("""
-<div style="text-align: center; padding: 20px;">
-
-    <h1>SecureFileLab</h1>
+<div style="text-align:center; padding:20px;">
+    <h1>🔐 SecureFileLab</h1>
     <p>Secure File Encryption, Decryption &amp; Hashing</p>
-
     <hr>
-
     <h3>Developed by</h3>
     <h2>Rutuja Sudesh Kadam</h2>
-
-    <p>Department of Forensic Science</p>
-    <h4>Yashavantrao Chavan Institute of Science, Satara</h4>
-    <p>Maharashtra, India</p>
-
     <hr>
-
     <h3>Under the Guidance of</h3>
     <p>Mr. Smitesh Nalage</p>
     <p>Mr. Aadesh Vatane</p>
-
     <hr>
-
+    <h4>Department of Forensic Science</h4>
+    <p><b>Yashavantrao Chavan Institute of Science, Satara, Maharashtra, India</b></p>
+    <hr>
     <p><b>Research Project:</b> MITM Attack Prevention</p>
-
 </div>
 """, unsafe_allow_html=True)
 
-st.title("🔐 SecureFile Lab")
-st.subheader("Data Integrity & Confidentiality Research Prototype")
+st.title("Data Integrity & Confidentiality")
+st.subheader("Research Prototype")
 
 st.info(
-    "Research prototype: SHA-256 checks file integrity. "
-    "Encryption protects confidentiality. These alone do not "
-    "prove or prevent a live MITM attack."
+    "SHA-256 helps check file integrity. "
+    "Encryption helps protect file confidentiality."
 )
 
+# 1. Hash comparison
 st.header("1. Two-File Hash Comparison")
 
 files = st.file_uploader(
@@ -90,6 +83,8 @@ if files:
         )
 
 st.divider()
+
+# 2. File encryption
 st.header("2. Encrypt a File")
 
 source = st.file_uploader(
@@ -118,14 +113,15 @@ if st.button("Encrypt File"):
     elif password != confirm_password:
         st.error("Passwords do not match.")
     else:
-        import base64
-        import os
-        import hashlib as hl
-
         salt = os.urandom(16)
-        key = hl.pbkdf2_hmac(
-            "sha256", password.encode(), salt, 600000, dklen=32
+        key = hashlib.pbkdf2_hmac(
+            "sha256",
+            password.encode(),
+            salt,
+            600000,
+            dklen=32
         )
+
         fernet_key = base64.urlsafe_b64encode(key)
         encrypted = Fernet(fernet_key).encrypt(source.getvalue())
         package = b"SFL1" + salt + encrypted
@@ -136,9 +132,14 @@ if st.button("Encrypt File"):
             file_name=source.name + ".sfl",
             mime="application/octet-stream"
         )
-        st.success("Encryption complete. Save the password securely.")
+
+        st.success(
+            "Encryption complete. Save the password securely."
+        )
 
 st.divider()
+
+# 3. File decryption
 st.header("3. Decrypt a File")
 
 encrypted_file = st.file_uploader(
@@ -155,11 +156,8 @@ decrypt_password = st.text_input(
 
 if st.button("Decrypt File"):
     if encrypted_file is None or not decrypt_password:
-        st.error("Select an encrypted file and enter its password.")
+        st.error("Select an encrypted file and enter the password.")
     else:
-        import base64
-        import hashlib as hl
-
         package = encrypted_file.getvalue()
 
         try:
@@ -167,15 +165,22 @@ if st.button("Decrypt File"):
                 raise ValueError("Invalid encrypted file format.")
 
             salt = package[4:20]
-            key = hl.pbkdf2_hmac(
-                "sha256", decrypt_password.encode(), salt,
-                600000, dklen=32
+
+            key = hashlib.pbkdf2_hmac(
+                "sha256",
+                decrypt_password.encode(),
+                salt,
+                600000,
+                dklen=32
             )
+
             fernet_key = base64.urlsafe_b64encode(key)
             decrypted = Fernet(fernet_key).decrypt(package[20:])
 
             original_name = encrypted_file.name[:-4]
+
             st.success("Decryption successful!")
+
             st.write("**Decrypted file SHA-256:**")
             st.code(hashlib.sha256(decrypted).hexdigest())
 
